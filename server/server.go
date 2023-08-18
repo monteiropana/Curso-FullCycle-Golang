@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"time"
@@ -51,7 +51,7 @@ func cotacao(w http.ResponseWriter, r *http.Request) {
 	}
 	defer res.Body.Close()
 
-	responseData, err := ioutil.ReadAll(res.Body)
+	responseData, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Print(err.Error())
 	}

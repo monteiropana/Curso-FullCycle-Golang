@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -23,4 +25,19 @@ func main() {
 	}
 	defer resposta.Body.Close()
 
+	file, err := os.Create("cotacao.txt")
+	if err != nil {
+		log.Print("Erro ao criar o arquivo.txt")
+	}
+	defer file.Close()
+
+	respBody, err := io.ReadAll(resposta.Body)
+	if err != nil {
+		log.Print("Erro ao ler os dados")
+	}
+
+	_, err = file.Write(respBody)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
