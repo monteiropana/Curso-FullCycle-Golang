@@ -11,9 +11,10 @@ import (
 
 func main() {
 	//Criando e Preparando a requisicao, usando o contexto TimeOut
-	ctx, cancel := context.WithTimeout(context.Background(), 300*time.Microsecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 5000*time.Millisecond)
 	defer cancel()
-	requuest, err := http.NewRequestWithContext(ctx, "GET", "http://localhost:8080", nil)
+
+	requuest, err := http.NewRequestWithContext(ctx, "GET", "http://localhost:8080/cotacao", nil)
 	if err != nil {
 		log.Print("Erro ao fazer a requisicao do client", err)
 	}
