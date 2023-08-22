@@ -78,11 +78,12 @@ func cotacao(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Print(err.Error())
 	}
-	fmt.Print(string(responseData))
 
 	var ObjectResponse Cotacao
 	json.Unmarshal(responseData, &ObjectResponse)
-	fmt.Println(ObjectResponse.Usdbrl.Bid)
+
+	fmt.Println("object: ", ObjectResponse.Usdbrl.Bid)
+
 	datab.SaveCotacao(ObjectResponse.Usdbrl.Bid)
 
 	w.Write([]byte("{'bid':'" + ObjectResponse.Usdbrl.Bid + "'}"))
@@ -98,9 +99,10 @@ func (db *Database) SaveCotacao(bid string) error {
 	}
 
 	var id = uuid.New().String()
-	_, err = conexao.ExecContext(ctx, "INSERT INTO cotacao (id,bid) VALUES($1,$2)", id, bid)
+	stmt, err := conexao.ExecContext(ctx, "INSERT INTO cotacao (id,bid) VALUES($1,$2)", id, bid)
 	if err != nil {
-		log.Println("Error inserting")
+		log.Println(err)
 	}
+	log.Println(stmt.RowsAffected())
 	return nil
 }

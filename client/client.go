@@ -28,7 +28,7 @@ func main() {
 
 	file, err := os.Create("cotacao.txt")
 	if err != nil {
-		log.Print("Erro ao criar o arquivo.txt")
+		log.Print("cotacao.txt não encontrado")
 	}
 	defer file.Close()
 
